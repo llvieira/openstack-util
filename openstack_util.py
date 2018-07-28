@@ -1,3 +1,5 @@
+import base64
+
 from openstack import connection
 
 class OpenstackUtil:
@@ -12,7 +14,7 @@ class OpenstackUtil:
         image_id_found = self._get_image_id(image_name)
         flavor_id_found = self._get_flavor_id(flavor_name)
         keypair_name_found = self._get_keypair_name(keypair_name)
-        user_data_script = file_name
+        user_data_script = self._convert_to_base64(file_name)
 
         server = self.conn.compute.create_server(name=server_name, image_id=image_id_found, flavor_id=flavor_id_found,
                                                  key_name=keypair_name_found, user_data=user_data_script, wait=True)
@@ -21,7 +23,7 @@ class OpenstackUtil:
         return server
 
     def delete_server(self, server_name):
-        self.conn.compute.delete_server(server_name, wait=True)
+        self.conn.compute.delete_server(server_name)
 
     def create_volume(self, volume_size):
         return self.conn.create_volume(volume_size, wait=True)
@@ -31,6 +33,9 @@ class OpenstackUtil:
 
     def detach_volume(self, server, volume):
         self.conn.detach_volume(server, volume, wait=True)
+
+    def create_snapshot(self, name, server):
+        self.conn.create_image_snapshot(name, server, wait=True)
 
     # utilitary functions
     def get_server(self, server_name):
@@ -52,5 +57,11 @@ class OpenstackUtil:
         if keypair_name is not None:
             return self.conn.compute.find_keypair(keypair_name).name
 
-    def _convert_to_base64(self, file):
-        pass
+    def _convert_to_base64(self, file_name):
+        if file_name == "":
+            return ""
+
+        cloud_init = open(file_name, "r")
+        content = cloud_init.read()
+
+        return str(base64.b64encode(content.encode()).decode("utf-8"))
