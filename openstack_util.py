@@ -37,6 +37,9 @@ class OpenstackUtil:
     def create_snapshot(self, name, server):
         self.conn.create_image_snapshot(name, server, wait=True)
 
+    def delete_snapshot(self, name, server):
+        self.conn.delete_volume_snapshot(name, server, wait=True)
+
     # utilitary functions
     def get_server(self, server_name):
         return self.conn.get_server(server_name)
