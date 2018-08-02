@@ -6,7 +6,7 @@ sudo apt-get install git -y
 
 cd /home/ubuntu/
 
-git clone https://github.com/azat-co/nodejs-hello-world
+git clone https://github.com/llvieira/nodejs-hello-world
 
 sudo apt-get install nodejs -y
 
