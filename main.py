@@ -15,7 +15,7 @@ def main():
         "user_domain_name": "geral",
         "project_domain_name": "geral",
         "username": "user-sd-3",
-        "password": "lucas123"
+        "password": "passwd"
     }
 
     openstackUtil = OpenstackUtil(**auth_args)
@@ -40,7 +40,7 @@ def script(openstackUtil):
     while True:
         time.sleep(120)
         
-        snap_name = "snap-app-" + str(random.randint(1, 1000))
+        snap_name = "snap-app-" + str(snapshot_quantity)
         snapshots.append(snap_name)
         snapshot_quantity += 1
 
@@ -73,73 +73,6 @@ def script(openstackUtil):
             print("- Deleting Snapshot - " + print_time())
             openstackUtil.delete_snapshot(snapshots[snapshot_quantity - 2])
             print("- Deleted Snapshot - " + print_time())
-
-# def create_server(openstackUtil):
-#     server_params = {
-#         "server_name": "lucas-vm-node",
-#         "image_name": "ubuntu-14.04-Ago-17",
-#         "flavor_name": "geral.sd.small",
-#         "keypair_name": "lucas-key",
-#         "file_name": "cloud_init.sh"
-#     }
-
-#     print("- Creating Server -")
-#     server = openstackUtil.create_server(**server_params)
-#     print(server.id)
-#     print("- Created Server -")
-
-#     print(" - Creating Snapshot -")
-#     openstackUtil.create_snapshot("snap-test", server.id)
-#     print(" - Created Snapshot -")
-
-#     print(" - Deleting Server - ")
-#     openstackUtil.delete_server(server.id)
-#     print (" - Deleted Server ")
-    
-#     print(" - Creating Server from snapshot -")
-#     server_params = {
-#         "server_name": "lucas-from-snap",
-#         "image_name": "snap-test",
-#         "flavor_name": "geral.sd.small",
-#         "keypair_name": "lucas-key"
-#     }
-
-#     server = openstackUtil.create_server(**server_params)
-#     print("- Created Server from snapshot -")
-
-#     print("- Creating Volume -")
-#     volume = openstackUtil.create_volume(10)
-#     print(volume.id)
-#     print("- Created Volume -")
-
-#     print(" - Attaching Volume -")
-#     server = openstackUtil.get_server(server.id)
-#     volume = openstackUtil.get_volume(volume.id)
-
-#     openstackUtil.attach_volume(server, volume)
-#     print(" - Attached Volume -")
-
-#     print(" - Deleting Server - ")
-#     openstackUtil.delete_server(server.id)
-#     print (" - Deleted Server ")
-
-#     print(" - Creating Server -")
-#     server_params = {
-#         "server_name": "lucas-vm2",
-#         "image_name": "ubuntu-14.04-Ago-17",
-#         "flavor_name": "geral.sd.small",
-#         "keypair_name": "lucas-key"
-#     }
-
-#     server = openstackUtil.create_server(**server_params)
-#     print("- Created Server -")
-
-#     print(" - Attaching Volume -")
-#     server = openstackUtil.get_server(server.id)
-#     volume = openstackUtil.get_volume(volume.id)
-
-#     openstackUtil.attach_volume(server, volume)
-#     print(" - Attached Volume -")
 
 if __name__ == '__main__':
     main()
